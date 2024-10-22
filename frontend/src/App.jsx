@@ -141,7 +141,7 @@ function App() {
         {/* Display the image when on the first question */}
         {currentQuestionIndex === 0 && (
           <div className="image-container">
-            <img src="../img/question1.jpg" alt="Question1" className="question-image" />
+            <img src="/img/question1.jpg" alt="Question1" className="question-image" />
           </div>
         )}
         {currentQuestionIndex === 1 && (
