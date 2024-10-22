@@ -10,10 +10,14 @@ function App() {
     question3: '',
     question4: '',
     question5: '',
+    question6: '',
+    question7: '',
+    question8: '',
+    question9: '',
   });
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [resultImage, setResultImage] = useState(null);
+  const [resultData, setResultData] = useState(null);
 
   // Different options for each question
   const questions = [
@@ -47,21 +51,21 @@ function App() {
       text: 'Какие у вас черты лица?',
       options: ['Мягкие и округлые', 'Угловатые и резкие', 'Широкие скулы', 'Узкий подбородок и широкий лоб', 'Высокие скулы и узкая нижняя часть лица'],
     },
-{
+    {
       id: 'question7',
       text: 'Как вы хотите, чтобы выглядели ваши брови?',
       options: ['Естественно и аккуратно', 'Четко и выразительно', 'Мягко и нежно', 'Ярко и драматично', 'Стильно и современно'],
     },
-// {
-//       id: 'question8',
-//       text: 'Какой цвет волос у вас сейчас?',
-//       options: ['Блонд', 'Рыжий', 'Каштановый(шатенка)', 'Темный(брюнетка)'],
-//     },
-// {
-//       id: 'question9',
-//       text: 'Какой у Вас тон кожи?',
-//       options: ['Светлый', 'Средний', 'Темный'],
-//     },
+    {
+      id: 'question8',
+      text: 'Какой цвет волос у вас сейчас?',
+      options: ['Блонд', 'Рыжий', 'Каштановый(шатенка)', 'Темный(брюнетка)'],
+    },
+    {
+      id: 'question9',
+      text: 'Какой у Вас тон кожи?',
+      options: ['Светлый', 'Средний', 'Темный'],
+    },
   ];
 
   // Handle answer change
@@ -76,14 +80,24 @@ function App() {
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // Check if all questions have been answered
+    const allQuestionsAnswered = questions.every(
+      (question) => answers[question.id] !== ''
+    );
+
+    if (!allQuestionsAnswered) {
+      alert('Пожалуйста, ответьте на все вопросы перед отправкой.');
+      return;
+    }
+
     // Send answers to the backend
-    axios.post('http://46.148.229.184/api/items', answers)
+    axios.post('http://localhost:8000/items', answers)
       .then(response => {
-        // Get the result image URL from the backend response
-        setResultImage(response.data.imageUrl);
+        setResultData(response.data);
       })
       .catch(error => {
-        console.error('Error calculating result:', error);
+        console.error('Ошибка при расчете результата:', error);
       });
   };
 
@@ -102,12 +116,12 @@ function App() {
 
   return (
     <div className="container">
-      <h1>Answer the following questions</h1>
+      <h1>Ответьте на следующие вопросы</h1>
       <form onSubmit={handleSubmit}>
         {/* Display only the current question */}
         <div className="question-block">
           <label>{questions[currentQuestionIndex].text}</label>
-          <div>
+          <div className="options-container">
             {questions[currentQuestionIndex].options.map(option => (
               <div key={option}>
                 <input
@@ -123,6 +137,39 @@ function App() {
           </div>
         </div>
 
+
+        {/* Display the image when on the first question */}
+        {currentQuestionIndex === 0 && (
+          <div className="image-container">
+            <img src="../img/question1.jpg" alt="Question1" className="question-image" />
+          </div>
+        )}
+        {currentQuestionIndex === 1 && (
+          <div className="image-container">
+            <img src="../img/question2.jpg" alt="Question1" className="question-image" />
+          </div>
+        )}
+        {currentQuestionIndex === 3 && (
+          <div className="image-container">
+            <img src="../img/question4.jpg" alt="Question1" className="question-image" />
+          </div>
+        )}
+        {currentQuestionIndex === 4 && (
+          <div className="image-container">
+            <img src="../img/question5.jpg" alt="Question1" className="question-image" />
+          </div>
+        )}
+        {currentQuestionIndex === 5 && (
+          <div className="image-container">
+            <img src="../img/question6.jpg" alt="Question1" className="question-image" />
+          </div>
+        )}
+        {currentQuestionIndex === 6 && (
+          <div className="image-container">
+            <img src="../img/question7.jpg" alt="Question1" className="question-image" />
+          </div>
+        )}
+
         {/* Navigation buttons */}
         <div className="navigation-buttons">
           <button
@@ -130,23 +177,26 @@ function App() {
             onClick={goToPreviousQuestion}
             disabled={currentQuestionIndex === 0}
           >
-            Previous
+            ⬅️
           </button>
           {currentQuestionIndex < questions.length - 1 ? (
             <button type="button" onClick={goToNextQuestion}>
-              Next
+              ➡️
             </button>
           ) : (
-            <button type="submit">Submit</button>
+            <div className="submit-button-container">
+              <button type="submit" className="submit-button">Отправить</button>
+            </div>
           )}
         </div>
       </form>
 
       {/* Display the result image if available */}
-      {resultImage && (
+      {resultData && (
         <div className="result">
-          <h2>Your Result:</h2>
-          <img src={resultImage} alt="Result" />
+          <h2>Ваш результат:</h2>
+          <p>{resultData.text}</p>
+          <img src={`data:image/png;base64,${resultData.image_base64}`} alt="Result" />
         </div>
       )}
     </div>

@@ -1,7 +1,13 @@
 import random
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 import uvicorn
+from pathlib import Path
+from fastapi.responses import FileResponse, JSONResponse
+from PIL import Image
+from io import BytesIO
+import base64
 
 from models import Answers
 from handle import calculate_score
@@ -9,21 +15,41 @@ from handle import calculate_score
 
 app = FastAPI()
 
+class ImageResponseModel(BaseModel):
+    text: str
+    image_base64: str
+
 
 # Mapping result to images
 result_images = {
-    'result1': 'https://static-00.iconduck.com/assets.00/docker-icon-2048x2048-5mc7mvtn.png',
-    'result2': 'https://www.svgrepo.com/show/373924/nginx.svg',
-    'result3': 'https://static-00.iconduck.com/assets.00/docker-icon-2048x2048-5mc7mvtn.png',
-    'result4': 'https://www.svgrepo.com/show/373924/nginx.svg',
-    'result5': 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
+    'result1': '../img/type1.png',
+    'result2': '../img/type2.png',
+    'result3': '../img/type3.png',
+    'result4': '../img/type4.png',
+    'result5': '../img/type5.png',
 }
 
-@app.post("/items")
+@app.post("/items", response_model=ImageResponseModel)
 async def calculate_result(answers: Answers):
-    result = calculate_score(answers)
-    image_url = result_images.get(result)
-    return {"imageUrl": image_url}
+    result, color_result = calculate_score(answers)
+    image_path = result_images.get(result)
+    with open(image_path, "rb") as image_file:
+        img = Image.open(image_file)
+        img_io = BytesIO()
+        img.save(img_io, "PNG")
+        img_io.seek(0)
+
+        img_base64 = base64.b64encode(img_io.read()).decode('utf-8')
+
+    response_data = {
+        "text": color_result,
+        "image_base64": img_base64
+    }
+
+    return JSONResponse(content=response_data)
+
+
+    # return FileResponse(image_path, media_type="image/png")
 
 
 app.add_middleware(

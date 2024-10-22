@@ -9,5 +9,5 @@ class Answers(BaseModel):
     question5: str
     question6: str
     question7: str
-    # question8: str
-    # question9: str
+    question8: str
+    question9: str

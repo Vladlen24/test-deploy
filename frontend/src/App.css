@@ -1,23 +1,111 @@
+/* Container styling */
 .container {
-  max-width: 600px;
+  max-width: 700px;
   margin: 0 auto;
   padding: 2rem;
+  background-color: #f0f8ff;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  font-family: 'Arial', sans-serif;
   text-align: center;
 }
 
+/* Heading */
+h1 {
+  color: #333;
+}
+
+/* Центрирование текста вопроса */
 .question-block {
+  text-align: center; /* Центрирование текста вопроса */
   margin-bottom: 1.5rem;
 }
 
+/* Radio button and label styling */
+input[type="radio"] {
+  margin-right: 10px;
+}
+
+label {
+  font-size: 1.1em;
+}
+
+/* Navigation buttons */
 .navigation-buttons {
-  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
 }
 
 .navigation-buttons button {
-  margin: 0 0.5rem;
+  background-color: #4682b4;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.2em;
+}
+
+.navigation-buttons button:disabled {
+  background-color: #b0c4de;
+}
+
+.navigation-buttons button:hover:not(:disabled) {
+  background-color: #5a9bd4;
+}
+
+/* Submit button styling */
+.submit-button-container {
+  margin-top: 1rem;
+}
+
+.submit-button {
+  background-color: #32cd32;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.2em;
+}
+
+.submit-button:hover {
+  background-color: #2e8b57;
+}
+
+/* Result styling */
+.result {
+  margin-top: 2rem;
 }
 
 .result img {
   max-width: 100%;
   height: auto;
+  border-radius: 10px;
+  margin-top: 1rem;
+}
+
+/* Image styling */
+.image-container {
+  margin: 20px auto;
+  text-align: center;
+}
+
+.question-image {
+  max-width: 50%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+/* Styling for radio buttons and labels */
+input[type="radio"] {
+  margin-right: 8px;
+}
+
+label {
+  font-size: 16px;
+  line-height: 1.5;
 }

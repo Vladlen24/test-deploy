@@ -12,6 +12,8 @@ def calculate_score(answers: Answers) -> str:
         'result5': 0   # Мягко закругленные
     }
 
+    color_result = "Рекомендация по цвету: "
+
     # Question 1: Какова форма вашего лица?
     if answers.question1 == 'Овальная':
         scores['result1'] += 3
@@ -138,6 +140,38 @@ def calculate_score(answers: Answers) -> str:
         scores['result1'] += 2
         scores['result4'] += 1
 
+    if answers.question8 == 'Блонд':
+        if answers.question9 == 'Светлый':
+            color_result += 'в цвет волос или на 1 тон темнее'
+        elif answers.question9 == 'Средний':
+            color_result += 'на 1-2 тона темнее цвета волос'
+        elif answers.question9 == 'Темный':
+            color_result += 'на 2 тона темнее цвета волос'
+
+    elif answers.question8 == 'Каштановый(шатенка)':
+        if answers.question9 == 'Светлый':
+            color_result += 'в цвет волос или на 1 тон темнее'
+        elif answers.question9 == 'Средний':
+            color_result += 'в цвет волос или на 1 тон темнее'
+        elif answers.question9 == 'Темный':
+            color_result += 'на 1-2 тона темнее цвета волос'
+
+    elif answers.question8 == 'Темный(брюнетка)':
+        if answers.question9 == 'Светлый':
+            color_result += 'на 1 тон светлее цвета волос'
+        elif answers.question9 == 'Средний':
+            color_result += 'в цвет волос'
+        elif answers.question9 == 'Темный':
+            color_result += 'на 1 тон темнее цвета волос'
+
+    elif answers.question8 == 'Рыжий':
+        if answers.question9 == 'Светлый':
+            color_result += 'в цвет волос или на 1 тон темнее'
+        elif answers.question9 == 'Средний':
+            color_result += 'на тон темнее цвета волос'
+        elif answers.question9 == 'Темный':
+            color_result += 'на 1-2 тона темнее цвета волос'
+
     # Find the result with the highest score
     max_result = max(scores, key=scores.get)
-    return max_result
+    return max_result, color_result
