@@ -36,7 +36,7 @@ async def calculate_result(answers: Answers):
     with open(image_path, "rb") as image_file:
         img = Image.open(image_file)
         img_io = BytesIO()
-        img.save(img_io, "JPG")
+        img.save(img_io, "JPEG")
         img_io.seek(0)
 
         img_base64 = base64.b64encode(img_io.read()).decode('utf-8')
