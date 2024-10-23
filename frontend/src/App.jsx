@@ -91,7 +91,7 @@ function App() {
       return;
     }
 
-    // Send answers to the backend
+    // Send answers to the backend http://localhost:8000/items (on local PC)
     axios.post('http://46.148.229.184/api/items', answers)
       .then(response => {
         setResultData(response.data);
@@ -113,6 +113,40 @@ function App() {
       setCurrentQuestionIndex(currentQuestionIndex - 1);
     }
   };
+
+  // Handle restarting the quiz
+  const restartQuiz = () => {
+    setAnswers({
+      question1: '',
+      question2: '',
+      question3: '',
+      question4: '',
+      question5: '',
+      question6: '',
+      question7: '',
+      question8: '',
+      question9: '',
+    });
+    setCurrentQuestionIndex(0);
+    setResultData(null);
+  };
+
+  // If resultData is available, show the result page
+  if (resultData) {
+    return (
+      <div className="container">
+        <div className="result-page">
+          <h2>Ваш результат: {resultData.name}</h2>
+          <p>{resultData.description}</p>
+          <p>{resultData.recomendation}</p>
+          <img src={`data:image/jpg;base64,${resultData.image_base64}`} alt="Result" className="result-image"/>
+          <div className="navigation-buttons">
+            <button onClick={restartQuiz} className="submit-button">Начать заново</button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="container">
@@ -205,16 +239,6 @@ function App() {
           )}
         </div>
       </form>
-
-      {/* Display the result image if available */}
-      {resultData && (
-        <div className="result">
-          <h2>Ваш результат: {resultData.name}</h2>
-          <p>{resultData.description}</p>
-          <p>{resultData.recomendation}</p>
-          <img src={`data:image/jpg;base64,${resultData.image_base64}`} alt="Result" />
-        </div>
-      )}
     </div>
   );
 }
