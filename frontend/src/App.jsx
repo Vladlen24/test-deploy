@@ -206,7 +206,7 @@ function App() {
         <div className="result">
           <h2>Ваш результат:</h2>
           <p>{resultData.text}</p>
-          <img src={`data:image/png;base64,${resultData.image_base64}`} alt="Result" />
+          <img src={`data:image/jpg;base64,${resultData.image_base64}`} alt="Result" />
         </div>
       )}
     </div>
