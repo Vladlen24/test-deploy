@@ -58,13 +58,13 @@ function App() {
     },
     {
       id: 'question8',
-      text: 'Какой цвет волос у вас сейчас?',
-      options: ['Блонд', 'Рыжий', 'Каштановый(шатенка)', 'Темный(брюнетка)'],
+      text: 'Какой у Вас тон кожи?',
+      options: ['Светлый', 'Средний', 'Темный'],
     },
     {
       id: 'question9',
-      text: 'Какой у Вас тон кожи?',
-      options: ['Светлый', 'Средний', 'Темный'],
+      text: 'Какой цвет волос у вас сейчас?',
+      options: ['Блонд', 'Рыжий', 'Каштановый(шатенка)', 'Темный(брюнетка)'],
     },
   ];
 
@@ -92,7 +92,7 @@ function App() {
     }
 
     // Send answers to the backend
-    axios.post('http://46.148.229.184/api/items', answers)
+    axios.post('http://localhost:8000/items', answers)
       .then(response => {
         setResultData(response.data);
       })
@@ -149,6 +149,11 @@ function App() {
             <img src="../img/question2.jpg" alt="Question1" className="question-image" />
           </div>
         )}
+        {currentQuestionIndex === 2 && (
+          <div className="image-container">
+            <img src="../img/question3.jpg" alt="Question1" className="question-image" />
+          </div>
+        )}
         {currentQuestionIndex === 3 && (
           <div className="image-container">
             <img src="../img/question4.jpg" alt="Question1" className="question-image" />
@@ -167,6 +172,11 @@ function App() {
         {currentQuestionIndex === 6 && (
           <div className="image-container">
             <img src="../img/question7.jpg" alt="Question1" className="question-image" />
+          </div>
+        )}
+        {currentQuestionIndex === 7 && (
+          <div className="image-container">
+            <img src="../img/question8.jpg" alt="Question1" className="question-image" />
           </div>
         )}
 
