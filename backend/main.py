@@ -22,11 +22,11 @@ class ImageResponseModel(BaseModel):
 
 # Mapping result to images
 result_images = {
-    'result1': '/img/result1.jpg',
-    'result2': '/img/result2.jpg',
-    'result3': '/img/result3.jpg',
-    'result4': '/img/result4.jpg',
-    'result5': '/img/result5.jpg',
+    'result1': './img/result1.jpg',
+    'result2': './img/result2.jpg',
+    'result3': './img/result3.jpg',
+    'result4': './img/result4.jpg',
+    'result5': './img/result5.jpg',
 }
 
 @app.post("/items", response_model=ImageResponseModel)
