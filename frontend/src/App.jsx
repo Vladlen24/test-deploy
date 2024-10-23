@@ -92,7 +92,7 @@ function App() {
     }
 
     // Send answers to the backend
-    axios.post('http://46.148.229.184/api/items', answers)
+    axios.post('http://localhost:8000/items', answers)
       .then(response => {
         setResultData(response.data);
       })
@@ -179,6 +179,11 @@ function App() {
             <img src="../img/question8.jpg" alt="Question1" className="question-image" />
           </div>
         )}
+        {currentQuestionIndex === 8 && (
+          <div className="image-container">
+            <img src="../img/question9.jpg" alt="Question1" className="question-image" />
+          </div>
+        )}
 
         {/* Navigation buttons */}
         <div className="navigation-buttons">
@@ -204,8 +209,9 @@ function App() {
       {/* Display the result image if available */}
       {resultData && (
         <div className="result">
-          <h2>Ваш результат:</h2>
-          <p>{resultData.text}</p>
+          <h2>Ваш результат: {resultData.name}</h2>
+          <p>{resultData.description}</p>
+          <p>{resultData.recomendation}</p>
           <img src={`data:image/jpg;base64,${resultData.image_base64}`} alt="Result" />
         </div>
       )}

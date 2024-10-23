@@ -10,7 +10,7 @@ from io import BytesIO
 import base64
 
 from models import Answers
-from handle import calculate_score
+from handle import calculate_score, text_result
 
 
 app = FastAPI()
@@ -22,17 +22,19 @@ class ImageResponseModel(BaseModel):
 
 # Mapping result to images
 result_images = {
-    'result1': './img/result1.jpg',
-    'result2': './img/result2.jpg',
-    'result3': './img/result3.jpg',
-    'result4': './img/result4.jpg',
-    'result5': './img/result5.jpg',
+    'result1': ['./img/result1.jpg', text_result[0], "Прямые"],
+    'result2': ['./img/result2.jpg', text_result[1], "Арочные"],
+    'result3': ['./img/result3.jpg', text_result[2], "Мягко изогнутые"],
+    'result4': ['./img/result4.jpg', text_result[3], "Высокие и драматичные"],
+    'result5': ['./img/result5.jpg', text_result[4], "Мягко закругленные"],
 }
 
 @app.post("/items", response_model=ImageResponseModel)
 async def calculate_result(answers: Answers):
     result, color_result = calculate_score(answers)
-    image_path = result_images.get(result)
+    image_path = result_images.get(result)[0]
+    description = result_images.get(result)[1]
+    name = result_images.get(result)[2]
     with open(image_path, "rb") as image_file:
         img = Image.open(image_file)
         img_io = BytesIO()
@@ -42,7 +44,9 @@ async def calculate_result(answers: Answers):
         img_base64 = base64.b64encode(img_io.read()).decode('utf-8')
 
     response_data = {
-        "text": color_result,
+        "name": name,
+        "description": description,
+        "recomendation": color_result,
         "image_base64": img_base64
     }
 
