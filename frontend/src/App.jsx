@@ -92,7 +92,7 @@ function App() {
     }
 
     // Send answers to the backend
-    axios.post('http://localhost:8000/items', answers)
+    axios.post('http://46.148.229.184/api/items', answers)
       .then(response => {
         setResultData(response.data);
       })
