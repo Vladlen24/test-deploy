@@ -22,11 +22,11 @@ class ImageResponseModel(BaseModel):
 
 # Mapping result to images
 result_images = {
-    'result1': './img/type1.png',
-    'result2': './img/type2.png',
-    'result3': './img/type3.png',
-    'result4': './img/type4.png',
-    'result5': './img/type5.png',
+    'result1': '/img/result1.jpg',
+    'result2': '/img/result2.jpg',
+    'result3': '/img/result3.jpg',
+    'result4': '/img/result4.jpg',
+    'result5': '/img/result5.jpg',
 }
 
 @app.post("/items", response_model=ImageResponseModel)
@@ -36,7 +36,7 @@ async def calculate_result(answers: Answers):
     with open(image_path, "rb") as image_file:
         img = Image.open(image_file)
         img_io = BytesIO()
-        img.save(img_io, "PNG")
+        img.save(img_io, "JPG")
         img_io.seek(0)
 
         img_base64 = base64.b64encode(img_io.read()).decode('utf-8')
